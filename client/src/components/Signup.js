@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import useRequest from '../hooks/useRequest';
+import buildClient from '../helpers/buildClient';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const client = buildClient()
   const { doRequest, errors } = useRequest({
     url: '/api/users/signup',
     method: 'post',
@@ -13,7 +15,13 @@ const Signup = () => {
       password
     }
   });
-
+useEffect(() => {
+  const getUser = async () => { 
+    const { data } = await client.get('/api/users/currentuser')
+    console.log('data ', data)
+  }
+  getUser()
+}, [])
   const onSubmit = async event => {
     event.preventDefault();
 
@@ -22,7 +30,7 @@ const Signup = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <h1>Sign Up</h1>
+      <h1>Sign Up now</h1>
       <div className="form-group">
         <label>Email Address</label>
         <input
@@ -41,7 +49,7 @@ const Signup = () => {
         />
       </div>
       {errors}
-      <Button>Sign Up</Button>
+      <Button>Sign Up now 23123</Button>
     </form>
   );
 }

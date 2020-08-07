@@ -1,12 +1,11 @@
 import axios from 'axios';
 
-const buildClient = ({ req }) => {
+const buildClient = () => {
   if (typeof window === 'undefined') {
     // We are on the server
 
     return axios.create({
-      baseURL: 'http://ingress-nginx.ingress-nginx.svc.cluster.local',
-      headers: req.headers
+      baseURL: 'http://ingress-nginx.ingress-nginx.svc.cluster.local'
     });
   } else {
     // We must be on the browser
