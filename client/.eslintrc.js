@@ -1,29 +1,21 @@
 module.exports = {
-  parser: 'babel-eslint',
-  extends: ['airbnb', 'prettier', 'prettier/react'],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
+  root: true,
+  env: {
+    browser: true,
+    node: true
   },
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-      modules: true,
-    },
+    parser: 'babel-eslint',
     ecmaVersion: 2018,
-    sourceType: 'module',
+    sourceType: 'module'
   },
-  plugins: ['react', 'prettier'],
+  extends: [
+    'plugin:react/recommended',
+    'plugin:prettier/recommended'
+  ],
+  plugins: [],
+  // add your custom rules here
   rules: {
-    'prettier/prettier': 'error',
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'react/forbid-prop-types': [0, { forbid: ['any'] }],
-    'react/prop-types': 0,
-  },
-  env: {
-    jest: true,
-    browser: true,
-    node: true,
-    es6: true,
-  },
-};
+      "react/prop-types": 1
+  }
+}

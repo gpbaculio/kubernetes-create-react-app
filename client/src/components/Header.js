@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const Header = ({ currentUser }) => {
+const Header = () => {
+  const { user } = useSelector((state) => state.user);
+  console.log('user ', user);
   const links = [
-    !currentUser && { label: 'Sign Up', href: '/auth/signup' },
-    !currentUser && { label: 'Sign In', href: '/auth/signin' },
-    currentUser && { label: 'Sign Out', href: '/auth/signout' },
+    !user && { label: 'Sign Up', href: '/auth/signup' },
+    !user && { label: 'Sign In', href: '/auth/signin' },
+    user && { label: 'Sign Out', href: '/auth/signout' },
   ]
     .filter((linkConfig) => linkConfig)
     .map(({ label, href }) => {
@@ -19,7 +22,7 @@ const Header = ({ currentUser }) => {
   return (
     <nav className="navbar navbar-light bg-light">
       <Link className="navbar-brand" to="/">
-        GitTix
+        GitTix: {user && user.email}
       </Link>
       <div className="d-flex justify-content-end">
         <ul className="nav d-flex align-items-center">{links}</ul>

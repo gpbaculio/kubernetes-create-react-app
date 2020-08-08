@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-const buildClient = () => {
-  return axios.create({
-    baseUrl: '/',
-  });
-};
+const buildClient = () => axios.create({ baseUrl: '/' });
 
 export default buildClient;
