@@ -24,3 +24,35 @@ build:
         manual:
           - src: "**/*.js"
             dest: .
+    - image: asia.gcr.io/udemy-ticketing-dev-285506/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: asia.gcr.io/udemy-ticketing-dev-285506/orders
+      context: orders
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: asia.gcr.io/udemy-ticketing-dev-285506/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: asia.gcr.io/udemy-ticketing-dev-285506/payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .

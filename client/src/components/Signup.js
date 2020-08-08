@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import useRequest from '../hooks/useRequest';
 import buildClient from '../helpers/buildClient';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const client = buildClient()
   const { doRequest, errors } = useRequest({
     url: '/api/users/signup',
     method: 'post',
     body: {
       email,
-      password
-    }
+      password,
+    },
   });
-useEffect(() => {
-  const getUser = async () => { 
-    const { data } = await client.get('/api/users/currentuser')
-    console.log('data ', data)
-  }
-  getUser()
-}, [])
-  const onSubmit = async event => {
+  useEffect(() => {
+    const getUser = async () => {
+      const client = buildClient();
+      const { data } = await client.get('/api/users/currentuser');
+      console.log('data ', data);
+    };
+    getUser();
+  }, []);
+  const onSubmit = async (event) => {
     event.preventDefault();
 
     await doRequest();
@@ -32,29 +32,33 @@ useEffect(() => {
     <form onSubmit={onSubmit}>
       <h1>Sign Up now</h1>
       <div className="form-group">
-        <label>Email Address</label>
-        <input
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          className="form-control"
-        />
+        <label htmlFor="email">
+          Email Address
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="form-control"
+          />
+        </label>
       </div>
       <div className="form-group">
-        <label>Password</label>
-        <input
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          type="password"
-          className="form-control"
-        />
+        <label htmlFor="password">
+          Password
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            className="form-control"
+          />
+        </label>
       </div>
       {errors}
       <Button>Sign Up now 23123</Button>
     </form>
   );
-}
+};
 
-export default Signup
+export default Signup;
 const Button = styled.button`
   background: transparent;
   border-radius: 3px;
@@ -62,4 +66,4 @@ const Button = styled.button`
   color: palevioletred;
   margin: 0 1em;
   padding: 0.25em 1em;
-`
+`;
