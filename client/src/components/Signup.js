@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import useRequest from '../hooks/useRequest';
-import buildClient from '../helpers/buildClient';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -14,14 +13,6 @@ const Signup = () => {
       password,
     },
   });
-  useEffect(() => {
-    const getUser = async () => {
-      const client = buildClient();
-      const { data } = await client.get('/api/users/currentuser');
-      console.log('data ', data);
-    };
-    getUser();
-  }, []);
   const onSubmit = async (event) => {
     event.preventDefault();
 
