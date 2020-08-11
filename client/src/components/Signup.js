@@ -1,16 +1,31 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import useRequest from '../hooks/useRequest';
+import { useHistory } from 'react-router-dom';
+import Axios from 'axios';
+import { setUser } from '../store/user/actions';
+import { useDispatch } from 'react-redux';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
+  const dispatch = useDispatch();
   const { doRequest, errors } = useRequest({
     url: '/api/users/signup',
     method: 'post',
     body: {
       email,
       password,
+    },
+    onSuccess: () => {
+      const getUser = async () => {
+        const { data } = await Axios.get('/api/users/currentuser');
+        dispatch(setUser(data.currentUser));
+        console.log('signup user', data);
+      };
+      getUser();
+      history.push('/');
     },
   });
   const onSubmit = async (event) => {

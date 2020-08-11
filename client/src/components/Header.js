@@ -1,20 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import Axios from 'axios';
+import { onLogout } from '../store/tickets/actions';
 
-const Header = () => {
-  const { user } = useSelector((state) => state.user);
-  console.log('user ', user);
+const Header = ({ isAuth }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const logout = () => {
+    Axios.post('/api/users/signout');
+    dispatch(onLogout());
+    history.push('/');
+  };
   const links = [
-    !user && { label: 'Sign Up', href: '/auth/signup' },
-    !user && { label: 'Sign In', href: '/auth/signin' },
-    user && { label: 'Sign Out', href: '/auth/signout' },
+    !isAuth && { label: 'Sign Up', href: '/auth/signup' },
+    !isAuth && { label: 'Sign In', href: '/auth/signin' },
+    isAuth && { label: 'Sell Tickets', href: '/tickets/new' },
+    isAuth && { label: 'My Orders', href: '/orders' },
+    isAuth && { label: 'Sign Out', href: '/auth/signout' },
   ]
     .filter((linkConfig) => linkConfig)
     .map(({ label, href }) => {
       return (
-        <li key={href} className="nav-item">
-          <Link to={href}>{label}</Link>
+        <li key={href} className="nav-item mx-3">
+          <Link
+            {...{
+              to: href,
+              ...(href === '/auth/signout' && { onClick: logout, to: '/' }),
+            }}
+          >
+            {label}
+          </Link>
         </li>
       );
     });
@@ -22,7 +38,7 @@ const Header = () => {
   return (
     <nav className="navbar navbar-light bg-light">
       <Link className="navbar-brand" to="/">
-        GitTix: {user && user.email}
+        GitTix
       </Link>
       <div className="d-flex justify-content-end">
         <ul className="nav d-flex align-items-center">{links}</ul>

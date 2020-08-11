@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
 import useRequest from '../hooks/useRequest';
+import { useHistory } from 'react-router-dom';
+import Axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/user/actions';
 
-export default () => {
+const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
+  const dispatch = useDispatch();
   const { doRequest, errors } = useRequest({
     url: '/api/users/signin',
     method: 'post',
     body: {
       email,
       password,
+    },
+    onSuccess: () => {
+      const getUser = async () => {
+        const { data } = await Axios.get('/api/users/currentuser');
+        dispatch(setUser(data.currentUser));
+        console.log('singin user', data);
+      };
+      getUser();
+      history.push('/');
     },
   });
 
@@ -50,3 +65,4 @@ export default () => {
     </form>
   );
 };
+export default Signin;
